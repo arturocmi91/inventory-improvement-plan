@@ -98,7 +98,53 @@ insert into item_info (ref ,barcode ,spare_name ,category ,model_car_id,quality 
 ('34532', 10068975, 'SET empacadura motor', 'Motor', 2, 'Original', 1),
 ('PM005', 10069573, 'SET Piston motor', 'Motor', 3, 'Original', 1),
 ('FL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Original', 1),
-('FL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Original', 4);
+('GL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Generico', 4);
 
 
 
+-- Algunos Queries
+-- Numero total de Items
+select count(ref) as "Numero de articulos" 
+from item_info;
+-- Codigos repetidos
+select  barcode 
+from item_info 
+group by barcode 
+having count(*)>1;
+-- Codigos repetidos con item info
+select *
+from item_info
+where barcode in (
+select barcode 
+from item_info
+group by barcode
+having count(*)>1
+);
+/*-- Eliminar un valor duplicado por id
+delete from item_info
+where item_id=26;
+-- Reiniciar tabla 
+TRUNCATE item_info;*/
+
+-- Cantidad de item "Genericos"
+
+select count(ref) as "Genericos" 
+from item_info
+where quality like "%Generico%";
+
+-- Cantidad de item "Originales"
+
+select count(ref) as "Originales"
+from item_info
+where quality like "%Original%";
+
+-- Item por marca de vehiculos
+
+select i.ref ,i.spare_name, m.model_brand as brand_name
+from item_info i
+join model_car m on i.model_car_id = m.model_car_id;
+
+-- Item por modelo de Vehiculos
+select i.ref, i.spare_name, m.model_name as model
+from item_info i
+join model_car m on i.model_car_id=m.model_car_id;
