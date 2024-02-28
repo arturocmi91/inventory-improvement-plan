@@ -14,31 +14,31 @@ import java.util.Objects;
 
 public class Customers {
     @Id
-    @NotNull
-    @Column(name="customer_id")
+    @NotBlank
+    @Column(name = "customer_id")
     private String id;
 
 
     @NotBlank
-    @Column(name="customer_name")
+    @Column(name = "customer_name")
     private String customerName;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name="customer_type")
+    @Column(name = "customer_type")
     private CustomerType customerType;
 
     @NotBlank
-    @Column(name="address")
+    @Column(name = "address")
     private String customerAddress;
 
     @NotBlank
-    @Column(name="email")
+    @Column(name = "email")
     private String customerEmail;
 
     @NotBlank
     @PastOrPresent
-    @Column(name="join_date")
+    @Column(name = "join_date")
 
     private LocalDateTime joinDate;
 
