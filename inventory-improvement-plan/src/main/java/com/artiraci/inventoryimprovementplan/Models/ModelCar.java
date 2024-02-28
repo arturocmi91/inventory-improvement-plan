@@ -1,4 +1,4 @@
-package com.artiraci.inventoryimprovementplan.Models.Models;
+package com.artiraci.inventoryimprovementplan.Models;
 
 import com.artiraci.inventoryimprovementplan.Enums.CarType;
 import jakarta.persistence.*;
