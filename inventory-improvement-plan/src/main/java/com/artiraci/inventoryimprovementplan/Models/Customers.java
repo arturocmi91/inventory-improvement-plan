@@ -24,7 +24,7 @@ public class Customers {
     private String customerName;
 
     @NotNull
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name="customer_type")
     private CustomerType customerType;
 
