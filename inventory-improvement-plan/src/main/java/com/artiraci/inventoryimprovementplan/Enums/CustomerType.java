@@ -1,8 +1,8 @@
 package com.artiraci.inventoryimprovementplan.Enums;
 
-public enum CarType {
-    Pick_up,
-    Sedan,
-    SUV
+public enum CustomerType {
+
+    Al_mayor,
+    Detal
 
 }
