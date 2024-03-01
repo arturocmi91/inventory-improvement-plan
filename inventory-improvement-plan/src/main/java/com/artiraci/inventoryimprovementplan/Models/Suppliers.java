@@ -13,17 +13,16 @@ import java.util.Objects;
 public class Suppliers {
 
     @Id
-    @NotBlank
+    @NotNull(message = "Debe tener un Identificador de Proveedor")
     @Column(name = "supplier_id")
 
     private String id;
 
-    @NotBlank
-    @Column(name = "supplier_name")
 
+    @Column(name = "supplier_name")
     private String supplierName;
 
-    @NotBlank
+    @NotBlank(message = "Debe tener un email")
     @Column(name = "email")
 
     private String supplierEmail;

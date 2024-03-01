@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public class Customers {
     @Id
-    @NotBlank
+    @NotNull(message = "Debe tener un Identificador de Cliente")
     @Column(name = "customer_id")
     private String id;
 
