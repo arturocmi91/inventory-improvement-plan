@@ -12,6 +12,7 @@ import jakarta.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "bussines_order")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Order {
    @Id

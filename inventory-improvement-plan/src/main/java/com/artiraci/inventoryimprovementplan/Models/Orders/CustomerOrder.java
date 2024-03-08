@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "customer_order")
 public class CustomerOrder  extends Order{
 
     @NotNull(message = "Debe tener un tipo de venta")
