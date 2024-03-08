@@ -27,6 +27,7 @@ public class ModelCar {
     @Column(name = "model_name")
     private String modelName;
 
+    //Relacion de composicion con los Items
     @OneToMany(mappedBy = "modelCar", cascade = CascadeType.ALL)
     private List<ItemInfo> items;
 

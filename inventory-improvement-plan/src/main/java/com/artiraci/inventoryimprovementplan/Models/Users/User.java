@@ -1,5 +1,7 @@
-package com.artiraci.inventoryimprovementplan.Models;
+package com.artiraci.inventoryimprovementplan.Models.Users;
 
+import com.artiraci.inventoryimprovementplan.Models.Inventory;
+import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +14,7 @@ import java.util.Objects;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class User {
+public  class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -30,6 +32,24 @@ public abstract class User {
 
     @NotNull
     private LocalDateTime registeredDate;
+
+    //muestra relacion usuario-inventario.
+    @ManyToMany
+    @JoinTable(
+            name = "user_inventory",
+            joinColumns = @JoinColumn(name = "inventory_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<Inventory> inventories;
+
+    //muestra relacion item-User .
+    @ManyToMany
+    @JoinTable(
+            name = "user_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private List<ItemInfo> items;
 
 
 

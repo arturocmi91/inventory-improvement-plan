@@ -1,12 +1,15 @@
 package com.artiraci.inventoryimprovementplan.Models;
 
 
-import com.artiraci.inventoryimprovementplan.Enums.CarType;
+import com.artiraci.inventoryimprovementplan.Enums.ItemStatus;
 import com.artiraci.inventoryimprovementplan.Enums.QualityItem;
+import com.artiraci.inventoryimprovementplan.Models.Orders.Order;
+import com.artiraci.inventoryimprovementplan.Models.Users.Adm;
+import com.artiraci.inventoryimprovementplan.Models.Users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.Objects;
+import java.util.List;
 
 @Entity
 @Table(name = "item_info")
@@ -39,9 +42,22 @@ public class ItemInfo {
 
     private ModelCar modelCar;
 
+    @NotNull(message = "Debe tener un status")
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "status")
+    private ItemStatus itemStatus;
+
+    @JoinColumn(name = "wholesale_price")
+    private Double wholesalePrice;
+
+    @JoinColumn(name = "retail_price")
+    private Double retailPrice;
 
 
-    @NotNull(message ="Debe tener un tipo de calidad")
+    @JoinColumn(name = "quantity")
+    private Integer quantityItem;
+
+    @NotNull(message = "Debe tener un tipo de calidad")
     @Enumerated(EnumType.STRING)
     @Column(name = "quality")
     private QualityItem qualityItem;
@@ -52,9 +68,19 @@ public class ItemInfo {
     private Integer quantitySet;
 
     @ManyToOne
-    @JoinColumn(name="modified_by")
+    @JoinColumn(name = "modified_by")
 
     private Adm modifiedBy;
+    // relacion Agregacion inventario-item
+    @ManyToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
+    private List<Inventory> inventories;
+    // relacion Agregacion Usuario-item
+    @ManyToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
+    private List<User> users;
+
+    //Relacion composicion con Lista de Order
+    @OneToMany(mappedBy = "itemId",cascade = CascadeType.ALL)
+    private List<Order> Orders;
 
     public ItemInfo() {
     }
