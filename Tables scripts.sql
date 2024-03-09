@@ -9,7 +9,7 @@ model_type enum('Pick Up','Sedan','SUV'),
 primary key(model_car_id)
 );
 
-create table customers(
+create table customer(
 customer_id varchar(255),
 customer_name varchar(255),
 customer_type enum('Al mayor','Detal'),
@@ -18,7 +18,7 @@ email varchar(255),
 join_date datetime,
 primary key(customer_id)
 );
-create table suppliers(
+create table supplier(
 supplier_id varchar(255),
 supplier_name varchar(255),
 email varchar(255),
@@ -50,7 +50,7 @@ insert into model_car (model_brand ,model_name,model_year ,model_type) values
 ('Jetour','Dashing SUV',2023,'SUV'),
 ('Jetour','Dashing SUV',2024,'SUV');
 
-insert into customers (customer_id ,customer_name ,customer_type ,address ,email ,join_date) values
+insert into customer (customer_id ,customer_name ,customer_type ,address ,email ,join_date) values
 
 ('CUS1', 'Propio', 'Al mayor', 'Morita I Calle Princiap 30', 'Propio@empresa.com', '2020-03-01 07:48:01'),
 ('CUS2', 'Sanchez Motors', 'Al mayor', 'Av Bolivar 13', 'Sanchez Motors@empresa.com', '2020-02-10 08:48:02'),
@@ -61,7 +61,7 @@ insert into customers (customer_id ,customer_name ,customer_type ,address ,email
 ('CUS7', 'Pekin Motors', 'Al mayor', 'Calle Paez 118', 'Pekin Motors@empresa.com', '2020-03-14 08:48:07'),
 ('CUS8', 'AutoPeriquitos HongKong', 'Al mayor', 'Av Bolivar 12', 'AutoPeriquitos HongKong@empresa.com', '2023-02-16 08:48:08');
 
-insert into suppliers (supplier_id ,supplier_name ,email ,join_date) values
+insert into supplier (supplier_id ,supplier_name ,email ,join_date) values
 
 ('OG1', 'Chan Yun co', 'ChanYunco@empresa.com', '2023-02-10 08:48:15'),
 ('OG2', 'Chery co', 'Cheryco@empresa.com', '2020-02-11 08:48:30'),
@@ -71,35 +71,34 @@ insert into suppliers (supplier_id ,supplier_name ,email ,join_date) values
 ('GC6', 'Xi Jang', 'XiJang@empresa.com', '2021-10-09 08:48:40'),
 ('GC7', 'Za Mu', 'ZaMu@empresa.com', '2020-03-12 08:48:55'),
 ('OG8', 'Kia co', 'Kiaco@empresa.com', '2020-03-01 07:48:20');
-
-insert into item_info (ref ,barcode ,spare_name ,category ,model_car_id,quality ,quantity_set ) values
-('ALO12', 10020145, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 8, 'Original', 1),
-('XLO01', 10020145, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 8, 'Generico', 1),
-('ALO02', 10020148, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 2, 'Original', 1),
-('ALG03', 10024808, 'Alternador 12 V 70 A Polea/SN/Canal', 'Alternador', 1, 'Generico', 1),
-('ALO04', 10037078, 'Alternador 12 V 70 A Polea/SN/Canal', 'Alternador', 2, 'Original', 1),
-('AMG01', 10037078, 'Amortiguador Completo Delantero LH', 'Armotiguador', 1, 'Original', 1),
-('AMG02', 10044435, 'Amortiguador Completo Delantero RH', 'Armotiguador', 2, 'Original', 1),
-('AMO03', 10045623, 'Amortiguador Completo Delantero RH', 'Armotiguador', 3, 'Original', 1),
-('AMO04', 10053803, 'Amortiguador Completo Delantero RH', 'Armotiguador', 1, 'Generico', 1),
-('ATG1115', 10061206, 'Amortiguador Trasero LH/LR', 'Armotiguador', 2, 'Generico', 1),
-('ATG1120', 10065628, 'Amortiguador Trasero LH/LR', 'Armotiguador', 3, 'Generico', 1),
-('ATG1122', 10066288, 'Amortiguador Trasero LH/LR', 'Armotiguador', 4, 'Generico', 1),
-('ATO1121', 10069573, 'Amortiguador Trasero LH/LR', 'Armotiguador', 5, 'Generico', 1),
-('BA01', 10078317, 'Bomba de Aceite', 'Bomba', 3, 'Original', 1),
-('BA02', 10078317, 'Bomba de Aceite', 'Bomba', 3, 'Generico', 1),
-('B01', 10082849, 'Bomba de Agua', 'Bomba', 5, 'Original', 4),
-('BY02', 10078317, 'Bomba de Agua', 'Bomba', 7, 'Generico', 1),
-('TX03', 10066964, 'Bomba de Agua', 'Bomba', 9, 'Generico', 1),
-('BX03', 10078337, 'Bomba de Agua', 'Bomba', 10, 'Generico', 1),
-('B02', 10044436, 'Bomba de Freno Con Goma', 'Bomba', 8, 'Original', 1),
-('4637', 10020146, 'SET empacadura motor', 'Motor', 6, 'Original', 1),
-('5643', 10066289, 'SET empacadura motor', 'Motor', 1, 'Generico', 1),
-('34532', 10068975, 'SET empacadura motor', 'Motor', 2, 'Original', 1),
-('PM005', 10069573, 'SET Piston motor', 'Motor', 3, 'Original', 1),
-('FL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Original', 1),
-('GL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Generico', 4);
-
+INSERT INTO item_info (ref, barcode, spare_name, category, model_car_id, quality, quantity_item, quantity_set, wholesale_price, retail_price, item_status) VALUES
+ 
+('ALO12', 10020145, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 8, 'Original', 1, 1, 100.00, 150.00, 'Disponible'),
+('XLO01', 10020145, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 8, 'Generico', 1, 1, 90.00, 130.00, 'Disponible'),
+('ALO02', 10020148, 'Alternador 12 V 70 A Polea/Canal', 'Alternador', 2, 'Original', 1, 1, 110.00, 160.00, 'Disponible'),
+('ALG03', 10024808, 'Alternador 12 V 70 A Polea/SN/Canal', 'Alternador', 1, 'Generico', 1, 1, 95.00, 140.00, 'Disponible'),
+('ALO04', 10037078, 'Alternador 12 V 70 A Polea/SN/Canal', 'Alternador', 2, 'Original', 1, 1, 105.00, 155.00, 'Disponible'),
+('AMG01', 10037078, 'Amortiguador Completo Delantero LH', 'Armotiguador', 1, 'Original', 1, 1, 80.00, 120.00, 'Disponible'),
+('AMG02', 10044435, 'Amortiguador Completo Delantero RH', 'Armotiguador', 2, 'Original', 1, 1, 85.00, 125.00, 'Disponible'),
+('AMO03', 10045623, 'Amortiguador Completo Delantero RH', 'Armotiguador', 3, 'Original', 1, 1, 90.00, 130.00, 'Disponible'),
+('AMO04', 10053803, 'Amortiguador Completo Delantero RH', 'Armotiguador', 1, 'Generico', 1, 1, 75.00, 110.00, 'Disponible'),
+('ATG1115', 10061206, 'Amortiguador Trasero LH/LR', 'Armotiguador', 2, 'Generico', 1, 1, 70.00, 100.00, 'Disponible'),
+('ATG1120', 10065628, 'Amortiguador Trasero LH/LR', 'Armotiguador', 3, 'Generico', 1, 1, 75.00, 110.00, 'Disponible'),
+('ATG1122', 10066288, 'Amortiguador Trasero LH/LR', 'Armotiguador', 4, 'Generico', 1, 1, 80.00, 120.00, 'Disponible'),
+('ATO1121', 10069573, 'Amortiguador Trasero LH/LR', 'Armotiguador', 5, 'Generico', 1, 1, 85.00, 125.00, 'Disponible'),
+('BA01', 10078317, 'Bomba de Aceite', 'Bomba', 3, 'Original', 1, 1, 75.00, 110.00, 'Disponible'),
+('BA02', 10078317, 'Bomba de Aceite', 'Bomba', 3, 'Generico', 1, 1, 70.00, 100.00, 'Disponible'),
+('B01', 10082849, 'Bomba de Agua', 'Bomba', 5, 'Original', 1, 4, 60.00, 90.00, 'Disponible'),
+('BY02', 10078317, 'Bomba de Agua', 'Bomba', 7, 'Generico', 1, 1, 55.00, 80.00, 'Disponible'),
+('TX03', 10066964, 'Bomba de Agua', 'Bomba', 9, 'Generico', 1, 1, 50.00, 75.00, 'Disponible'),
+('BX03', 10078337, 'Bomba de Agua', 'Bomba', 10, 'Generico', 1, 1, 45.00, 70.00, 'Disponible'),
+('B02', 10044436, 'Bomba de Freno Con Goma', 'Bomba', 8, 'Original', 1, 1, 40.00, 60.00, 'Disponible'),
+('4637', 10020146, 'SET empacadura motor', 'Motor', 6, 'Original', 1, 1, 120.00, 180.00, 'Disponible'),
+('5643', 10066289, 'SET empacadura motor', 'Motor', 1, 'Generico', 1, 1, 110.00, 160.00, 'Disponible'),
+('34532', 10068975, 'SET empacadura motor', 'Motor', 2, 'Original', 1, 1, 130.00, 190.00, 'Disponible'),
+('PM005', 10069573, 'SET Piston motor', 'Motor', 3, 'Original', 1, 1, 140.00, 200.00, 'Disponible'),
+('FL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Original', 1, 1, 30.00, 45.00, 'Disponible'),
+('GL989', 10069247, 'Filtro de Aceite', 'Filtro', 6, 'Generico', 4, 1, 25.00, 40.00, 'Disponible');
 
 
 -- Algunos Queries
