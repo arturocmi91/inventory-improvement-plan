@@ -4,7 +4,7 @@ import com.artiraci.inventoryimprovementplan.Enums.RequestStatus;
 import com.artiraci.inventoryimprovementplan.Models.Customer;
 import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
 import com.artiraci.inventoryimprovementplan.Models.Users.Adm;
-import com.artiraci.inventoryimprovementplan.Models.WhInbound.Supplier;
+import com.artiraci.inventoryimprovementplan.Models.Supplier;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
