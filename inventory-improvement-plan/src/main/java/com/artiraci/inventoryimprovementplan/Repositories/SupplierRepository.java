@@ -1,4 +1,4 @@
-package com.artiraci.inventoryimprovementplan.Repositories.WhInboundsRepo;
+package com.artiraci.inventoryimprovementplan.Repositories;
 
 import com.artiraci.inventoryimprovementplan.Models.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
