@@ -2,7 +2,6 @@ package com.artiraci.inventoryimprovementplan.Models;
 
 import com.artiraci.inventoryimprovementplan.Enums.LocationType;
 import com.artiraci.inventoryimprovementplan.Models.Orders.CustomerOrder;
-import com.artiraci.inventoryimprovementplan.Models.Orders.Order;
 import com.artiraci.inventoryimprovementplan.Models.Users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +17,7 @@ public class Inventory {
     @Id
     @NotBlank(message = "Debe tener una Ubicacion")
 
-    private String InventoryId;
+    private String inventoryId;
 
     @NotNull
     @PastOrPresent
@@ -52,7 +51,7 @@ public class Inventory {
     }
 
     public Inventory(String inventoryId, LocalDateTime updatedDate, LocationType locationType, List<ItemInfo> items, List<User> users, List<CustomerOrder> customerOrders) {
-        InventoryId = inventoryId;
+        this.inventoryId = inventoryId;
         this.updatedDate = updatedDate;
         this.locationType = locationType;
         this.items = items;
@@ -61,11 +60,11 @@ public class Inventory {
     }
 
     public String getInventoryId() {
-        return InventoryId;
+        return inventoryId;
     }
 
     public void setInventoryId(String inventoryId) {
-        InventoryId = inventoryId;
+        this.inventoryId = inventoryId;
     }
 
     public LocalDateTime getUpdatedDate() {
@@ -113,18 +112,18 @@ public class Inventory {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Inventory inventory = (Inventory) o;
-        return Objects.equals(InventoryId, inventory.InventoryId) && Objects.equals(updatedDate, inventory.updatedDate) && locationType == inventory.locationType && Objects.equals(items, inventory.items) && Objects.equals(users, inventory.users) && Objects.equals(customerOrders, inventory.customerOrders);
+        return Objects.equals(inventoryId, inventory.inventoryId) && Objects.equals(updatedDate, inventory.updatedDate) && locationType == inventory.locationType && Objects.equals(items, inventory.items) && Objects.equals(users, inventory.users) && Objects.equals(customerOrders, inventory.customerOrders);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(InventoryId, updatedDate, locationType, items, users, customerOrders);
+        return Objects.hash(inventoryId, updatedDate, locationType, items, users, customerOrders);
     }
 
     @Override
     public String toString() {
         return "Inventory{" +
-                "InventoryId='" + InventoryId + '\'' +
+                "InventoryId='" + inventoryId + '\'' +
                 ", updatedDate=" + updatedDate +
                 ", locationType=" + locationType +
                 ", items=" + items +
