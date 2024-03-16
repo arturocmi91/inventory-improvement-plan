@@ -6,12 +6,14 @@ import com.artiraci.inventoryimprovementplan.Enums.QualityItem;
 import com.artiraci.inventoryimprovementplan.Models.Orders.Order;
 import com.artiraci.inventoryimprovementplan.Models.Users.Adm;
 import com.artiraci.inventoryimprovementplan.Models.Users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.util.List;
 import java.util.Objects;
-
+@JsonPropertyOrder({"id", "barcode", "reference", "itemName", "category", "itemStatus", "wholesalePrice", "retailPrice", "quantityItem", "qualityItem", "quantitySet","model_car_id"})
 @Entity
 @Table(name = "item_info")
 public class ItemInfo {
@@ -22,7 +24,7 @@ public class ItemInfo {
 
     @NotBlank(message = "Debe tener Referencia")
     @Column(name = "ref")
-    private String Refence;
+    private String Reference;
 
     @NotNull
     @Column(name = "barcode")
@@ -38,6 +40,7 @@ public class ItemInfo {
     private String category;
 
     //Relacion modelo con items
+
     @ManyToOne
     @JoinColumn(name = "model_car_id")
 
@@ -70,24 +73,29 @@ public class ItemInfo {
 
     @ManyToOne
     @JoinColumn(name = "modified_by")
-
     private Adm modifiedBy;
-    // relacion Agregacion inventario-item
+
+  // relacion Agregacion inventario-item
+   @JsonIgnore
     @ManyToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
     private List<Inventory> inventories;
     // relacion Agregacion Usuario-item
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "items", cascade = CascadeType.PERSIST)
     private List<User> users;
 
+
     //Relacion composicion con Lista de Order
+    @JsonIgnore
     @OneToMany(mappedBy = "itemId",cascade = CascadeType.ALL)
     private List<Order> Orders;
 
     public ItemInfo() {
     }
 
-    public ItemInfo(String refence, Long barcode, String itemName, String category, ModelCar modelCar, ItemStatus itemStatus, Double wholesalePrice, Double retailPrice, Integer quantityItem, QualityItem qualityItem, Integer quantitySet, Adm modifiedBy, List<Inventory> inventories, List<User> users, List<Order> orders) {
-        Refence = refence;
+    public ItemInfo(String reference, Long barcode, String itemName, String category, ModelCar modelCar, ItemStatus itemStatus, Double wholesalePrice, Double retailPrice, Integer quantityItem, QualityItem qualityItem, Integer quantitySet) {
+        Reference = reference;
         this.barcode = barcode;
         this.itemName = itemName;
         this.category = category;
@@ -98,10 +106,6 @@ public class ItemInfo {
         this.quantityItem = quantityItem;
         this.qualityItem = qualityItem;
         this.quantitySet = quantitySet;
-        this.modifiedBy = modifiedBy;
-        this.inventories = inventories;
-        this.users = users;
-        Orders = orders;
     }
 
     public Long getId() {
@@ -112,12 +116,12 @@ public class ItemInfo {
         this.id = id;
     }
 
-    public String getRefence() {
-        return Refence;
+    public String getReference() {
+        return Reference;
     }
 
-    public void setRefence(String refence) {
-        Refence = refence;
+    public void setReference(String reference) {
+        Reference = reference;
     }
 
     public Long getBarcode() {
@@ -200,56 +204,24 @@ public class ItemInfo {
         this.quantitySet = quantitySet;
     }
 
-    public Adm getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(Adm modifiedBy) {
-        this.modifiedBy = modifiedBy;
-    }
-
-    public List<Inventory> getInventories() {
-        return inventories;
-    }
-
-    public void setInventories(List<Inventory> inventories) {
-        this.inventories = inventories;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<Order> getOrders() {
-        return Orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        Orders = orders;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemInfo itemInfo = (ItemInfo) o;
-        return Objects.equals(id, itemInfo.id) && Objects.equals(Refence, itemInfo.Refence) && Objects.equals(barcode, itemInfo.barcode) && Objects.equals(itemName, itemInfo.itemName) && Objects.equals(category, itemInfo.category) && Objects.equals(modelCar, itemInfo.modelCar) && itemStatus == itemInfo.itemStatus && Objects.equals(wholesalePrice, itemInfo.wholesalePrice) && Objects.equals(retailPrice, itemInfo.retailPrice) && Objects.equals(quantityItem, itemInfo.quantityItem) && qualityItem == itemInfo.qualityItem && Objects.equals(quantitySet, itemInfo.quantitySet) && Objects.equals(modifiedBy, itemInfo.modifiedBy) && Objects.equals(inventories, itemInfo.inventories) && Objects.equals(users, itemInfo.users) && Objects.equals(Orders, itemInfo.Orders);
+        return Objects.equals(id, itemInfo.id) && Objects.equals(Reference, itemInfo.Reference) && Objects.equals(barcode, itemInfo.barcode) && Objects.equals(itemName, itemInfo.itemName) && Objects.equals(category, itemInfo.category) && Objects.equals(modelCar, itemInfo.modelCar) && itemStatus == itemInfo.itemStatus && Objects.equals(wholesalePrice, itemInfo.wholesalePrice) && Objects.equals(retailPrice, itemInfo.retailPrice) && Objects.equals(quantityItem, itemInfo.quantityItem) && qualityItem == itemInfo.qualityItem && Objects.equals(quantitySet, itemInfo.quantitySet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, Refence, barcode, itemName, category, modelCar, itemStatus, wholesalePrice, retailPrice, quantityItem, qualityItem, quantitySet, modifiedBy, inventories, users, Orders);
+        return Objects.hash(id, Reference, barcode, itemName, category, modelCar, itemStatus, wholesalePrice, retailPrice, quantityItem, qualityItem, quantitySet);
     }
 
     @Override
     public String toString() {
         return "ItemInfo{" +
                 "id=" + id +
-                ", Refence='" + Refence + '\'' +
+                ", Reference='" + Reference + '\'' +
                 ", barcode=" + barcode +
                 ", itemName='" + itemName + '\'' +
                 ", category='" + category + '\'' +
@@ -260,10 +232,6 @@ public class ItemInfo {
                 ", quantityItem=" + quantityItem +
                 ", qualityItem=" + qualityItem +
                 ", quantitySet=" + quantitySet +
-                ", modifiedBy=" + modifiedBy +
-                ", inventories=" + inventories +
-                ", users=" + users +
-                ", Orders=" + Orders +
                 '}';
     }
 }

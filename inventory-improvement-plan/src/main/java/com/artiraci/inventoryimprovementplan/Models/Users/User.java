@@ -2,6 +2,7 @@ package com.artiraci.inventoryimprovementplan.Models.Users;
 
 import com.artiraci.inventoryimprovementplan.Models.Inventory;
 import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,20 +21,21 @@ public  class User {
     private Long userId;
 
     @NotBlank(message = "Debe tener un nombre")
-    private String userName;
+    protected String userName;
 
     @NotBlank(message = "Debe tener un email")
-    private String userEmail;
+    protected String userEmail;
 
     @NotBlank(message = "Debe tener una contraseña")
     @Size(min = 8)
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$")
-    private String password;
+    protected String password;
 
     @NotNull
-    private LocalDateTime registeredDate;
+    protected LocalDateTime registeredDate;
 
     //muestra relacion usuario-inventario.
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_inventory",
@@ -43,6 +45,7 @@ public  class User {
     private List<Inventory> inventories;
 
     //muestra relacion item-User .
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "user_item",

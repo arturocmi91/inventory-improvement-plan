@@ -7,6 +7,7 @@ import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
 import com.artiraci.inventoryimprovementplan.Models.Orders.Order;
 import com.artiraci.inventoryimprovementplan.Models.Supplier;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -23,24 +24,27 @@ public class Adm extends User {
     private String admRole;
 
     //Relacion Agregacion Lista de empleados asignados o revisados.
+    @JsonIgnore
     @OneToMany(mappedBy = "manager", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Employee> employees;
 
     //Relacion Agregacion Lista de items revisados o modificados.
-
+    @JsonIgnore
     @OneToMany(mappedBy = "modifiedBy", cascade = CascadeType.PERSIST)
     private List<ItemInfo> items;
 
     //Relacion Agregacion Lista de Ordenes revisados o modificados.
-
+    @JsonIgnore
     @OneToMany(mappedBy = "actionsBy", cascade = CascadeType.PERSIST)
     private List<Order> orders;
 
     //Relacion Agregacion lista de clientes Asignados.
+    @JsonIgnore
     @OneToMany(mappedBy = "assignedBy", cascade = CascadeType.PERSIST)
     private List<Customer> customers;
 
     //Relacion Agregacion lista de proveedores Asignados.
+    @JsonIgnore
     @OneToMany(mappedBy = "assignedBy", cascade = CascadeType.PERSIST)
     private List<Supplier> suppliers;
 
@@ -56,7 +60,6 @@ public class Adm extends User {
         this.customers = customers;
         this.suppliers = suppliers;
     }
-
 
     public String getAdmRole() {
         return admRole;

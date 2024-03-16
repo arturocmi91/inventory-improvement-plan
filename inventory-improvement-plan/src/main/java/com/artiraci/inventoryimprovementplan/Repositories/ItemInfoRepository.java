@@ -5,6 +5,8 @@ import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
 import com.artiraci.inventoryimprovementplan.Models.Users.Adm;
 import com.artiraci.inventoryimprovementplan.Models.Users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,8 +20,9 @@ public interface ItemInfoRepository extends JpaRepository<ItemInfo, Long> {
     List<ItemInfo> findItemInfoByBarcode(Long bardcode);
     //Query JPA que consulta lista de articulos modificado por Adm
     List<ItemInfo> findItemInfoByModifiedBy(Adm modifiedBy);
-    //Query JPA que consulta lista de item por inventarios
-    List<ItemInfo> findByInventories(Inventory inventory);
+
+
+
 
 
 
