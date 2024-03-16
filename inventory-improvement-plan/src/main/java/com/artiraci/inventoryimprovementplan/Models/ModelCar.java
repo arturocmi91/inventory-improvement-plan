@@ -1,6 +1,7 @@
 package com.artiraci.inventoryimprovementplan.Models;
 
 import com.artiraci.inventoryimprovementplan.Enums.CarType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +29,7 @@ public class ModelCar {
     private String modelName;
 
     //Relacion de composicion con los Items
+    @JsonIgnore
     @OneToMany(mappedBy = "modelCar", cascade = CascadeType.PERSIST)
     private List<ItemInfo> items;
 

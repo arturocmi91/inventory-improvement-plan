@@ -3,6 +3,7 @@ package com.artiraci.inventoryimprovementplan.Models;
 import com.artiraci.inventoryimprovementplan.Enums.LocationType;
 import com.artiraci.inventoryimprovementplan.Models.Orders.CustomerOrder;
 import com.artiraci.inventoryimprovementplan.Models.Users.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +32,7 @@ public class Inventory {
     private LocationType locationType;
 
     // relacion Agregacion inventario-item
+
     @ManyToMany
     @JoinTable(
             name = "inventory_item",
@@ -40,10 +42,12 @@ public class Inventory {
     private List<ItemInfo> items;
 
     //Relacion Agregacion Lista de Usuarios que han utilizado el inventario.
+    @JsonIgnore
     @ManyToMany(mappedBy = "inventories", cascade = CascadeType.PERSIST)
     private List<User> users;
 
     //Relacion Agregacion Lista de Ordenes de clientes (CustomerOrder) que estan asignadas en el Inventario.
+    @JsonIgnore
     @ManyToMany(mappedBy = "allocations", cascade = CascadeType.PERSIST)
     private List<CustomerOrder>customerOrders;
 
