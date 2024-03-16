@@ -21,6 +21,7 @@ public class EmployeeService {
     }
 
 
-
-
+    public List<ItemInfo> showAllRef(String reference) {
+        return  itemInfoRepository.findItemInfoByReference( reference);
+    }
 }

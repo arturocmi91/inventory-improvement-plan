@@ -14,8 +14,8 @@ import java.util.Optional;
 
 @Repository
 public interface ItemInfoRepository extends JpaRepository<ItemInfo, Long> {
-    //Query JPA que consulta item por su nombre
-    Optional<ItemInfo> findItemInfoByItemName(String itemName);
+    //Query JPA que consulta item por su referencia
+    List<ItemInfo> findItemInfoByReference(String reference);
     //Query JPA que consulta lista de articulos por codigo de barra
     List<ItemInfo> findItemInfoByBarcode(Long bardcode);
     //Query JPA que consulta lista de articulos modificado por Adm

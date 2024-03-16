@@ -18,12 +18,19 @@ public class EmployeeControl {
 
 //<<Metodos Get>>
 
-    //Mostrar todos los items .
+    //Mostrar todos los items.
 
-    @GetMapping(value = "/items")
+    @GetMapping(value = "/item/all-items")
     @ResponseStatus(HttpStatus.OK)
     public List<ItemInfo> GetAllItems(){
         return employeeService.showAllItems();}
+
+    //Mostrar items  por ref en caso de estar duplicado
+
+    @GetMapping(value = "/item/{reference}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ItemInfo> GetReference(@PathVariable String reference){
+        return employeeService.showAllRef(reference);}
 
 //Mostrar todos los items por Ubicación.
   /*  @GetMapping(value = "/Locations/{inventoryId}")

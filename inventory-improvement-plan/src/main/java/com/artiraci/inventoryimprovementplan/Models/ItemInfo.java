@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
 
 import java.util.List;
 import java.util.Objects;
-@JsonPropertyOrder({"id", "barcode", "reference", "itemName", "category", "itemStatus", "wholesalePrice", "retailPrice", "quantityItem", "qualityItem", "quantitySet","model_car_id"})
+@JsonPropertyOrder({"id", "barcode", "reference", "itemName", "category", "itemStatus", "wholesalePrice", "retailPrice", "quantityItem", "qualityItem", "quantitySet","model_car_id", "modified_by"})
 @Entity
 @Table(name = "item_info")
 public class ItemInfo {
@@ -24,7 +24,7 @@ public class ItemInfo {
 
     @NotBlank(message = "Debe tener Referencia")
     @Column(name = "ref")
-    private String Reference;
+    private String reference;
 
     @NotNull
     @Column(name = "barcode")
@@ -95,7 +95,7 @@ public class ItemInfo {
     }
 
     public ItemInfo(String reference, Long barcode, String itemName, String category, ModelCar modelCar, ItemStatus itemStatus, Double wholesalePrice, Double retailPrice, Integer quantityItem, QualityItem qualityItem, Integer quantitySet) {
-        Reference = reference;
+        this.reference = reference;
         this.barcode = barcode;
         this.itemName = itemName;
         this.category = category;
@@ -117,11 +117,11 @@ public class ItemInfo {
     }
 
     public String getReference() {
-        return Reference;
+        return reference;
     }
 
     public void setReference(String reference) {
-        Reference = reference;
+        this.reference = reference;
     }
 
     public Long getBarcode() {
@@ -209,19 +209,19 @@ public class ItemInfo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ItemInfo itemInfo = (ItemInfo) o;
-        return Objects.equals(id, itemInfo.id) && Objects.equals(Reference, itemInfo.Reference) && Objects.equals(barcode, itemInfo.barcode) && Objects.equals(itemName, itemInfo.itemName) && Objects.equals(category, itemInfo.category) && Objects.equals(modelCar, itemInfo.modelCar) && itemStatus == itemInfo.itemStatus && Objects.equals(wholesalePrice, itemInfo.wholesalePrice) && Objects.equals(retailPrice, itemInfo.retailPrice) && Objects.equals(quantityItem, itemInfo.quantityItem) && qualityItem == itemInfo.qualityItem && Objects.equals(quantitySet, itemInfo.quantitySet);
+        return Objects.equals(id, itemInfo.id) && Objects.equals(reference, itemInfo.reference) && Objects.equals(barcode, itemInfo.barcode) && Objects.equals(itemName, itemInfo.itemName) && Objects.equals(category, itemInfo.category) && Objects.equals(modelCar, itemInfo.modelCar) && itemStatus == itemInfo.itemStatus && Objects.equals(wholesalePrice, itemInfo.wholesalePrice) && Objects.equals(retailPrice, itemInfo.retailPrice) && Objects.equals(quantityItem, itemInfo.quantityItem) && qualityItem == itemInfo.qualityItem && Objects.equals(quantitySet, itemInfo.quantitySet);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, Reference, barcode, itemName, category, modelCar, itemStatus, wholesalePrice, retailPrice, quantityItem, qualityItem, quantitySet);
+        return Objects.hash(id, reference, barcode, itemName, category, modelCar, itemStatus, wholesalePrice, retailPrice, quantityItem, qualityItem, quantitySet);
     }
 
     @Override
     public String toString() {
         return "ItemInfo{" +
                 "id=" + id +
-                ", Reference='" + Reference + '\'' +
+                ", Reference='" + reference + '\'' +
                 ", barcode=" + barcode +
                 ", itemName='" + itemName + '\'' +
                 ", category='" + category + '\'' +
