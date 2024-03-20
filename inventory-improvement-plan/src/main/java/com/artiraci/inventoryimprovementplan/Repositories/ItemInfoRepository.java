@@ -1,5 +1,6 @@
 package com.artiraci.inventoryimprovementplan.Repositories;
 
+import com.artiraci.inventoryimprovementplan.Enums.ItemStatus;
 import com.artiraci.inventoryimprovementplan.Models.Inventory;
 import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
 import com.artiraci.inventoryimprovementplan.Models.Users.Adm;
@@ -16,20 +17,19 @@ import java.util.Optional;
 public interface ItemInfoRepository extends JpaRepository<ItemInfo, Long> {
     //Query JPA que consulta item por su referencia
     List<ItemInfo> findItemInfoByReference(String reference);
+
     //Query JPA que consulta lista de articulos por codigo de barra
     List<ItemInfo> findItemInfoByBarcode(Long bardcode);
+
     //Query JPA que consulta lista de articulos modificado por Adm
     List<ItemInfo> findItemInfoByModifiedBy(Adm modifiedBy);
+
+    //Query JPA que consulta lista de articulos modificado por Adm
+    List<ItemInfo> findByItemStatus(ItemStatus status);
 
     // Items por ubicacion del inventario
 
     List<ItemInfo> findByInventoriesInventoryId(String inventoryId);
-
-
-
-
-
-
 
 
 }
