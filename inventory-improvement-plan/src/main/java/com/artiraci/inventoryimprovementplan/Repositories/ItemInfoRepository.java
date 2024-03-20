@@ -21,6 +21,12 @@ public interface ItemInfoRepository extends JpaRepository<ItemInfo, Long> {
     //Query JPA que consulta lista de articulos modificado por Adm
     List<ItemInfo> findItemInfoByModifiedBy(Adm modifiedBy);
 
+    // Items por ubicacion del inventario
+
+    List<ItemInfo> findByInventoriesInventoryId(String inventoryId);
+
+
+
 
 
 

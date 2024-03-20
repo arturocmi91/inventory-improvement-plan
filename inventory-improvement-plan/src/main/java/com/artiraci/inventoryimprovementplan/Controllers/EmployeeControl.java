@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/employee")
+@RequestMapping(value = "/employee")
 public class EmployeeControl {
     @Autowired
     EmployeeService employeeService;
@@ -18,24 +18,32 @@ public class EmployeeControl {
 
 //<<Metodos Get>>
 
+    //---ITEMS---
     //Mostrar todos los items.
 
     @GetMapping(value = "/item/all-items")
     @ResponseStatus(HttpStatus.OK)
-    public List<ItemInfo> GetAllItems(){
-        return employeeService.showAllItems();}
+    public List<ItemInfo> GetAllItems() {
+        return employeeService.showAllItems();
+    }
 
     //Mostrar items  por ref en caso de estar duplicado
 
-    @GetMapping(value = "/item/{reference}")
+    @GetMapping(value = "/item/reference/{reference}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ItemInfo> GetReference(@PathVariable String reference){
-        return employeeService.showAllRef(reference);}
+    public List<ItemInfo> GetReference(@PathVariable String reference) {
+        return employeeService.showAllRef(reference);
+    }
 
-//Mostrar todos los items por Ubicación.
-  /*  @GetMapping(value = "/Locations/{inventoryId}")
+
+    //Mostrar contenido del Inventario
+    @GetMapping(value = "/item/inventory/{inventoryId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ItemInfo> GetItemsByLocation(@PathVariable String inventoryId){
-return employeeService.showAllItemByInventoryId(inventoryId);}*/
+    public List<ItemInfo> GetItemsByLocation(@PathVariable String inventoryId) {
+        return employeeService.showAllItemByInventoryId(inventoryId);
+    }
 
+    //---INVENTARIO---
+
+    
 }
