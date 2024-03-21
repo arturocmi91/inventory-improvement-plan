@@ -11,19 +11,27 @@ import com.artiraci.inventoryimprovementplan.Repositories.InventoryRepository;
 import com.artiraci.inventoryimprovementplan.Repositories.ItemInfoRepository;
 import com.artiraci.inventoryimprovementplan.Repositories.ModelCarRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.expression.spel.ast.NullLiteral;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -97,12 +105,29 @@ public class controllerTest {
         luz1.setQuantityItem(15);
         problemCont.addItem(luz1, 15);
 
-        inventories = inventoryRepository.saveAll(List.of(rack1,problemCont));
-
+        inventories = inventoryRepository.saveAll(List.of(rack1, problemCont));
 
 
     }
+
+    @AfterEach
+    void tearDown() {
+        inventoryRepository.deleteAll();
+        itemInfoRepository.deleteAll();
+        modelCarRepository.deleteAll();
+
+    }
+
+    //EMPLOYEE>>>> Test GET method
     @Test
-    void updateDb(){}
+    void shouldReturnAllItems_whenGetMethodsIsCalled() throws Exception {
+        MvcResult result=  mockMvc.perform(get("/employee/item/all-items"))
+                .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+        assertTrue(result.getResponse().getContentAsString().contains("bujias 2*2"));
+
+    }
+
 
 }
+

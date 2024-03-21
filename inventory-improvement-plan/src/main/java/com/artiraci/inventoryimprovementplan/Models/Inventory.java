@@ -72,6 +72,7 @@ public class Inventory {
         if(items==null){
             items=new ArrayList<>();
         }
+
         item.setQuantityItem(qty);
         items.add(item);
 
