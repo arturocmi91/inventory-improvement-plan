@@ -28,7 +28,7 @@ public class ItemInfo {
 
     @NotNull
     @Column(name = "barcode")
-    @Pattern(regexp = "\\d{12}", message = "El código de barras no valido")
+    @Digits(integer = 12, fraction = 0, message = "El código de barras debe contener exactamente 12 dígitos")
     private Long barcode;
 
     @NotBlank(message = "Debe tener nombre/descripcion")
@@ -93,6 +93,8 @@ public class ItemInfo {
 
     public ItemInfo() {
     }
+
+
 
     public ItemInfo(String reference, Long barcode, String itemName, String category, ModelCar modelCar, ItemStatus itemStatus, Double wholesalePrice, Double retailPrice, Integer quantityItem, QualityItem qualityItem, Integer quantitySet) {
         this.reference = reference;
@@ -202,6 +204,38 @@ public class ItemInfo {
 
     public void setQuantitySet(Integer quantitySet) {
         this.quantitySet = quantitySet;
+    }
+
+    public Adm getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(Adm modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public List<Inventory> getInventories() {
+        return inventories;
+    }
+
+    public void setInventories(List<Inventory> inventories) {
+        this.inventories = inventories;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public List<Order> getOrders() {
+        return Orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        Orders = orders;
     }
 
     @Override

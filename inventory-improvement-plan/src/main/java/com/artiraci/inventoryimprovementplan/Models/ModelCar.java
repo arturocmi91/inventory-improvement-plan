@@ -46,10 +46,10 @@ public class ModelCar {
     public ModelCar() {
     }
 
-    public ModelCar(String modelBrand, String modelName, List<ItemInfo> items, Integer year, CarType modelType) {
+    public ModelCar( String modelBrand, String modelName, Integer year, CarType modelType) {
+
         this.modelBrand = modelBrand;
         this.modelName = modelName;
-        this.items = items;
         this.year = year;
         this.modelType = modelType;
     }
@@ -76,14 +76,6 @@ public class ModelCar {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
-    }
-
-    public List<ItemInfo> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemInfo> items) {
-        this.items = items;
     }
 
     public Integer getYear() {

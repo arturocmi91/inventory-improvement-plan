@@ -8,8 +8,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,6 +65,18 @@ public class Inventory {
         this.customerOrders = customerOrders;
     }
 
+  //metodo para agragar items
+
+    public void addItem(ItemInfo item,Integer qty){
+
+        if(items==null){
+            items=new ArrayList<>();
+        }
+        item.setQuantityItem(qty);
+        items.add(item);
+
+    }
+
     public String getInventoryId() {
         return inventoryId;
     }
@@ -110,6 +124,8 @@ public class Inventory {
     public void setCustomerOrders(List<CustomerOrder> customerOrders) {
         this.customerOrders = customerOrders;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
