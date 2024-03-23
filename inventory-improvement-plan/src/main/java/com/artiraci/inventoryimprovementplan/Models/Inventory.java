@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class Inventory {
 
   //metodo para agragar items
 
-    public void addItem(ItemInfo item,Integer qty){
+    public int addItem(ItemInfo item, Integer qty){
 
         if(items==null){
             items=new ArrayList<>();
@@ -75,6 +74,7 @@ public class Inventory {
 
         item.setQuantityItem(qty);
         items.add(item);
+        return item.getQuantityItem();
 
     }
 

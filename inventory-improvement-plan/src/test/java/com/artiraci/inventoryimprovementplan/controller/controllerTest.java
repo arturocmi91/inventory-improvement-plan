@@ -1,4 +1,4 @@
-package com.artiraci.inventoryimprovementplan.controller.controller;
+package com.artiraci.inventoryimprovementplan.controller;
 
 import com.artiraci.inventoryimprovementplan.Enums.CarType;
 import com.artiraci.inventoryimprovementplan.Enums.ItemStatus;
@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -102,8 +103,8 @@ public class controllerTest {
         bujia.setQuantityItem(2);
         problemCont.addItem(bujia, 2);
 
-        luz1.setQuantityItem(15);
-        problemCont.addItem(luz1, 15);
+        luz1.setQuantityItem(10);
+        problemCont.addItem(luz1, 10);
 
         inventories = inventoryRepository.saveAll(List.of(rack1, problemCont));
 
@@ -115,6 +116,22 @@ public class controllerTest {
         inventoryRepository.deleteAll();
         itemInfoRepository.deleteAll();
         modelCarRepository.deleteAll();
+
+    }
+//Test Unitario del metodo de item ADDitems
+    @Test
+
+    void shouldAddItemInContainer(){
+
+        ModelCar cherry = new ModelCar("Cherry", "TiggoXD", 2018, CarType.Pick_up);
+      //modelCarRepository.save(cherry);
+        ItemInfo item1= new ItemInfo("2DD", 100232000L, "Meseta 2*2", "Meseta", cherry, ItemStatus.Disponible, 23.00, 25.00, 5, QualityItem.Generico, 2);
+       Inventory rack2 = new Inventory("QR01", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+
+       item1.setQuantityItem(2);
+       rack2.addItem(item1,2);
+
+       assertEquals(2,rack2.addItem(item1,2));
 
     }
 
