@@ -1,5 +1,6 @@
 package com.artiraci.inventoryimprovementplan.Controllers;
 
+import com.artiraci.inventoryimprovementplan.DTO.InventoryDto;
 import com.artiraci.inventoryimprovementplan.Enums.ItemStatus;
 import com.artiraci.inventoryimprovementplan.Models.Inventory;
 import com.artiraci.inventoryimprovementplan.Models.ItemInfo;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/employee")
@@ -17,7 +19,7 @@ public class EmployeeControl {
     EmployeeService employeeService;
 
 
-//<<Metodos Get>>
+//-------------------------------------<< Metodos Get >>----------------------------------------------------
 
     //---ITEMS---
     //Mostrar todos los items.
@@ -70,6 +72,22 @@ public class EmployeeControl {
     public List<Inventory> GetAllInventory() {
         return employeeService.showAllInventory();
     }
+  //Mostrar ubicacion
+    @GetMapping(value = "/inventory/{inventoryId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Inventory GetLocation(@PathVariable String inventoryId) {
+        return employeeService.showLocation(inventoryId);
+    }
 
+    //-------------------------------------<< Metodos Post >>----------------------------------------------------
+
+    //Inventory
+
+    @PostMapping(value="/acción/ubicar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Inventory addItemIntoInventory(@RequestBody InventoryDto inventoryDto)throws IllegalAccessException{
+        return employeeService.addItemInventory(inventoryDto);
+
+    }
 
 }

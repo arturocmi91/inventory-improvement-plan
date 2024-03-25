@@ -5,9 +5,7 @@ import com.artiraci.inventoryimprovementplan.Models.Orders.CustomerOrder;
 import com.artiraci.inventoryimprovementplan.Models.Users.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +15,9 @@ import java.util.Objects;
 @Entity
 public class Inventory {
     @Id
+    @Pattern(regexp = "[A-Za-z]{2}\\d{3}", message = "El ID del inventario debe tener dos letras seguidas de tres dígitos")
     @NotBlank(message = "Debe tener una Ubicacion")
+
 
     private String inventoryId;
 

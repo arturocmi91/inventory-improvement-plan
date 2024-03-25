@@ -86,8 +86,8 @@ public class controllerTest {
         Inventory problemCont;
 
         inventories = inventoryRepository.saveAll(List.of(
-                rack1 = new Inventory("QR01", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null),
-                problemCont = new Inventory("PQR01", LocalDateTime.of(2024, 1, 9, 1, 1, 25), LocationType.Damaged_Container, null, null, null)
+                rack1 = new Inventory("QR001", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null),
+                problemCont = new Inventory("PQ001", LocalDateTime.of(2024, 1, 9, 1, 1, 25), LocationType.Damaged_Container, null, null, null)
         ));
 
         //Asignacion PICK para el rack1
@@ -118,27 +118,27 @@ public class controllerTest {
         modelCarRepository.deleteAll();
 
     }
-//Test Unitario del metodo de item ADDitems
-    @Test
 
-    void shouldAddItemInContainer(){
+    //Test Unitario del metodo de Inventory addItems
+    @Test
+    void shouldAddItemInContainer() {
 
         ModelCar cherry = new ModelCar("Cherry", "TiggoXD", 2018, CarType.Pick_up);
-      //modelCarRepository.save(cherry);
-        ItemInfo item1= new ItemInfo("2DD", 100232000L, "Meseta 2*2", "Meseta", cherry, ItemStatus.Disponible, 23.00, 25.00, 5, QualityItem.Generico, 2);
-       Inventory rack2 = new Inventory("QR01", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        //modelCarRepository.save(cherry);
+        ItemInfo item1 = new ItemInfo("2DD", 100232000L, "Meseta 2*2", "Meseta", cherry, ItemStatus.Disponible, 23.00, 25.00, 5, QualityItem.Generico, 2);
+        Inventory rack2 = new Inventory("QR01", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
 
-       item1.setQuantityItem(2);
-       rack2.addItem(item1,2);
+        item1.setQuantityItem(2);
+        rack2.addItem(item1, 2);
 
-       assertEquals(2,rack2.addItem(item1,2));
+        assertEquals(2, rack2.addItem(item1, 2));
 
     }
 
     //EMPLOYEE>>>> Test GET method
     @Test
     void shouldReturnAllItems_whenGetMethodsIsCalled() throws Exception {
-        MvcResult result=  mockMvc.perform(get("/employee/item/all-items"))
+        MvcResult result = mockMvc.perform(get("/employee/item/all-items"))
                 .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("bujias 2*2"));
