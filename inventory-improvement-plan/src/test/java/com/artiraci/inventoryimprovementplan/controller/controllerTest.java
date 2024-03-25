@@ -1,5 +1,6 @@
 package com.artiraci.inventoryimprovementplan.controller;
 
+import com.artiraci.inventoryimprovementplan.DTO.InventoryDto;
 import com.artiraci.inventoryimprovementplan.Enums.CarType;
 import com.artiraci.inventoryimprovementplan.Enums.ItemStatus;
 import com.artiraci.inventoryimprovementplan.Enums.LocationType;
@@ -32,6 +33,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -134,8 +136,8 @@ public class controllerTest {
         assertEquals(2, rack2.addItem(item1, 2));
 
     }
-
-    //EMPLOYEE>>>> Test GET method
+//-------------------------------------------- Test GET method-----------------------------------------------------------
+    //EMPLOYEE>>>> Test GET All ITEMS
     @Test
     void shouldReturnAllItems_whenGetMethodsIsCalled() throws Exception {
         MvcResult result = mockMvc.perform(get("/employee/item/all-items"))
@@ -143,6 +145,26 @@ public class controllerTest {
                 .andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("bujias 2*2"));
 
+    }
+
+    //-------------------------------------------- Test POST method-----------------------------------------------------------
+    //EMPLOYEE>>>> Test Post Agregar Articulo
+    @Test
+    void shouldAddItemToInventory_WhenPostMethodIsCalled() throws Exception {
+
+
+        InventoryDto location= new InventoryDto();
+                location.setInventoryId("QR001");
+                location.setBarcode(100532000L);
+                location.setQuantity(2);
+
+        String body = objectMapper.writeValueAsString(location);
+        MvcResult result = mockMvc.perform(post("/employee/acción/ubicar")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andReturn();
+        System.out.println(result.getResponse().getContentAsString());
     }
 
 

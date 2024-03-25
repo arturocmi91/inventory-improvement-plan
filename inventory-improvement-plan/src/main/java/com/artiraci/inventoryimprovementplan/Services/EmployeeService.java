@@ -67,15 +67,12 @@ public class EmployeeService {
                 .orElse(null);
 
         if (item != null) {
-            // Manejar la multiplicidad de elementos con el mismo código de barras
-            if (inventory.getItems().contains(item)) {
-                throw new IllegalStateException("El artículo ya existe en el inventario");
-            }
+            item.setQuantityItem(inventoryDto.getQuantity());
+            inventory.getItems().add(item);
         } else {
             throw new IllegalArgumentException("El artículo no existe en la base de datos");
         }
-        item.setQuantityItem(inventoryDto.getQuantity());
-        inventory.getItems().add(item);
+
 
         // Actualizar el inventario en la base de datos
         return inventoryRepository.save(inventory);
