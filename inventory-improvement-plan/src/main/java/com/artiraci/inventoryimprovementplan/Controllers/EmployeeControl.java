@@ -86,7 +86,7 @@ public class EmployeeControl {
     @PostMapping(value="/acción/ubicar")
     @ResponseStatus(HttpStatus.CREATED)
     public Inventory addItemIntoInventory(@RequestBody InventoryDto inventoryDto)throws IllegalAccessException{
-        return employeeService.addItemInventory(inventoryDto);
+        return employeeService.stowingItemInventory(inventoryDto);
 
     }
 

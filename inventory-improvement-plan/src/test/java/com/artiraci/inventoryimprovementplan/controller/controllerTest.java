@@ -85,14 +85,18 @@ public class controllerTest {
         ));
 
         Inventory rack1;
+        Inventory rack2;
         Inventory problemCont;
 
         inventories = inventoryRepository.saveAll(List.of(
                 rack1 = new Inventory("QR001", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null),
+                rack2 = new Inventory("QR002", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null),
+
+
                 problemCont = new Inventory("PQ001", LocalDateTime.of(2024, 1, 9, 1, 1, 25), LocationType.Damaged_Container, null, null, null)
         ));
 
-        //Asignacion PICK para el rack1
+        //Asignacion  para el rack1
 
         bujia.setQuantityItem(10);
         rack1.addItem(bujia, 10);
@@ -100,13 +104,15 @@ public class controllerTest {
         amortiguador.setQuantityItem(2);
         rack1.addItem(amortiguador, 1);
 
-        //Asignacion PICK para el rack1
+        //Asignacion  para el rack1
 
         bujia.setQuantityItem(2);
         problemCont.addItem(bujia, 2);
-
+        System.out.println(rack1);
         luz1.setQuantityItem(10);
         problemCont.addItem(luz1, 10);
+
+
 
         inventories = inventoryRepository.saveAll(List.of(rack1, problemCont));
 
@@ -128,10 +134,11 @@ public class controllerTest {
         ModelCar cherry = new ModelCar("Cherry", "TiggoXD", 2018, CarType.Pick_up);
         //modelCarRepository.save(cherry);
         ItemInfo item1 = new ItemInfo("2DD", 100232000L, "Meseta 2*2", "Meseta", cherry, ItemStatus.Disponible, 23.00, 25.00, 5, QualityItem.Generico, 2);
-        Inventory rack2 = new Inventory("QR01", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        Inventory rack2 = new Inventory("QR002", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
 
         item1.setQuantityItem(2);
         rack2.addItem(item1, 2);
+
 
         assertEquals(2, rack2.addItem(item1, 2));
 
@@ -151,11 +158,28 @@ public class controllerTest {
     //EMPLOYEE>>>> Test Post Agregar Articulo
     @Test
     void shouldAddItemToInventory_WhenPostMethodIsCalled() throws Exception {
+        ModelCar carroChino = new ModelCar("Cherry", "TiggoV7", 2018, CarType.Pick_up);
+         cars= modelCarRepository.saveAll(List.of(carroChino));
+
+         ItemInfo item3  = new ItemInfo("2DD", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Original, 2);
+         ItemInfo item4  = new ItemInfo("2DDP", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Generico, 2);
+        Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        items = itemInfoRepository.saveAll(List.of(item3));
+        item3.setQuantityItem(2);
+        source.addItem(item3, 2);
+        Inventory destination = new Inventory("QR005", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        inventories = inventoryRepository.saveAll(List.of(source, destination));
+        System.out.println(source);
+
+        System.out.println(destination);
+
 
 
         InventoryDto location= new InventoryDto();
-                location.setInventoryId("QR001");
-                location.setBarcode(100532000L);
+                location.setSourceInventoryId("QR004" +
+                        "");
+                location.setDestinationInventoryId("QR005");
+                location.setBarcode(100542000L);
                 location.setQuantity(2);
 
         String body = objectMapper.writeValueAsString(location);

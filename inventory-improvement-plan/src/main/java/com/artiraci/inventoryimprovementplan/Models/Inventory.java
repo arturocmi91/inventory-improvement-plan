@@ -72,8 +72,27 @@ public class Inventory {
             items=new ArrayList<>();
         }
 
+        if (qty > item.getQuantityItem()) {
+            throw new IllegalArgumentException("La cantidad agregada es mayor que la cantidad disponible.");
+        }
+
         item.setQuantityItem(qty);
         items.add(item);
+        return item.getQuantityItem();
+
+    }
+    public int removeItem(ItemInfo item, Integer qty){
+
+        if(items==null){
+            items=new ArrayList<>();
+        }
+
+        if (qty > item.getQuantityItem()) {
+            throw new IllegalArgumentException("La cantidad agregada es mayor que la cantidad disponible.");
+        }
+
+        item.setQuantityItem(qty);
+        items.remove(item);
         return item.getQuantityItem();
 
     }

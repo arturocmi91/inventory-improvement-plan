@@ -31,6 +31,10 @@ public class InventoryDto {
 
     private LocationType locationType;
 
+    private String sourceInventoryId;
+
+    private String destinationInventoryId;
+
     // relacion Agregacion inventario-item
 
     private List<Long> items;
@@ -51,19 +55,20 @@ public class InventoryDto {
     @Digits(integer = 12, fraction = 0, message = "El código de barras debe contener exactamente 12 dígitos")
     private Long barcode;
 
-    public InventoryDto() {
+    public String getSourceInventoryId() {
+        return sourceInventoryId;
     }
 
-    public InventoryDto(String inventoryId, LocalDateTime updatedDate, LocationType locationType, List<Long> items, List<Long> users, List<Long> customerOrders, Long itemId, Integer quantity, Long barcode) {
-        this.inventoryId = inventoryId;
-        this.updatedDate = updatedDate;
-        this.locationType = locationType;
-        this.items = items;
-        this.users = users;
-        this.customerOrders = customerOrders;
-        this.itemId = itemId;
-        this.quantity = quantity;
-        this.barcode = barcode;
+    public void setSourceInventoryId(String sourceInventoryId) {
+        this.sourceInventoryId = sourceInventoryId;
+    }
+
+    public String getDestinationInventoryId() {
+        return destinationInventoryId;
+    }
+
+    public void setDestinationInventoryId(String destinationInventoryId) {
+        this.destinationInventoryId = destinationInventoryId;
     }
 
     public String getInventoryId() {

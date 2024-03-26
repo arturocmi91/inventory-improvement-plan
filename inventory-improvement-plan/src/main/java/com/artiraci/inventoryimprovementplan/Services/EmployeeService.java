@@ -56,26 +56,33 @@ public class EmployeeService {
                 -> new ResponseStatusException(HttpStatus.NOT_FOUND, " La ubicacion del inventario " + "'" + inventoryId + "'" + " Es incorrecta o no existe"));
     }
 
-    public Inventory addItemInventory(InventoryDto inventoryDto) throws IllegalAccessException {
-
-       Inventory inventory = inventoryRepository.findById(inventoryDto.getInventoryId()).orElseThrow(()
-                -> new IllegalArgumentException("La ubicación: " + "' " + inventoryDto.getInventoryId() + " '" + " no existe."));
-
-        ItemInfo item = itemInfoRepository.findItemInfoByBarcode(inventoryDto.getBarcode())
-                .stream()
+    public Inventory stowingItemInventory(InventoryDto inventoryDto) throws IllegalAccessException {
+        //Incializacion del Contenedor Fuente
+        Inventory sourceContainer = inventoryRepository.findById(inventoryDto.getSourceInventoryId()).orElseThrow(()
+                -> new IllegalArgumentException("La ubicación: " + "' " + inventoryDto.getSourceInventoryId() + " '" + " no existe."));
+        //Incializacion del Contenedor de destino
+        Inventory destinationContainer = inventoryRepository.findById(inventoryDto.getDestinationInventoryId()).orElseThrow(()
+                -> new IllegalArgumentException("La ubicación: " + "' " + inventoryDto.getDestinationInventoryId() + " '" + " no existe."));
+        //Validacion del item escaneado
+        ItemInfo itemToMove = sourceContainer.getItems().stream()
+                .filter(item ->  item.getBarcode().equals(inventoryDto.getBarcode()) )
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(() -> new IllegalArgumentException(" No esta presente en este contenedor  "));
+        //Validacion del otro
 
-        if (item != null) {
-            item.setQuantityItem(inventoryDto.getQuantity());
-            inventory.getItems().add(item);
+        if (itemToMove != null) {
+
+            itemToMove.setQuantityItem(inventoryDto.getQuantity());
+           // sourceContainer.getItems().remove(itemToMove);
+            destinationContainer.getItems().add(itemToMove);
         } else {
             throw new IllegalArgumentException("El artículo no existe en la base de datos");
         }
 
 
         // Actualizar el inventario en la base de datos
-        return inventoryRepository.save(inventory);
+        inventoryRepository.saveAll(List.of(sourceContainer, destinationContainer));
+        return destinationContainer;
 
 
     }
