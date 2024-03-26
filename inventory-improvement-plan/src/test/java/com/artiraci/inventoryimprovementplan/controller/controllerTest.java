@@ -11,6 +11,7 @@ import com.artiraci.inventoryimprovementplan.Models.ModelCar;
 import com.artiraci.inventoryimprovementplan.Repositories.InventoryRepository;
 import com.artiraci.inventoryimprovementplan.Repositories.ItemInfoRepository;
 import com.artiraci.inventoryimprovementplan.Repositories.ModelCarRepository;
+import com.artiraci.inventoryimprovementplan.Services.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,9 +30,13 @@ import org.springframework.web.context.WebApplicationContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,6 +60,8 @@ public class controllerTest {
     InventoryRepository inventoryRepository;
     @Autowired
     ModelCarRepository modelCarRepository;
+    @Autowired
+    EmployeeService employeeService;
 
     List<ItemInfo> items = new ArrayList<>();
     List<Inventory> inventories = new ArrayList<>();
@@ -113,7 +120,6 @@ public class controllerTest {
         problemCont.addItem(luz1, 10);
 
 
-
         inventories = inventoryRepository.saveAll(List.of(rack1, problemCont));
 
 
@@ -143,7 +149,8 @@ public class controllerTest {
         assertEquals(2, rack2.addItem(item1, 2));
 
     }
-//-------------------------------------------- Test GET method-----------------------------------------------------------
+
+    //-------------------------------------------- Test GET method-----------------------------------------------------------
     //EMPLOYEE>>>> Test GET All ITEMS
     @Test
     void shouldReturnAllItems_whenGetMethodsIsCalled() throws Exception {
@@ -161,21 +168,21 @@ public class controllerTest {
 
         //Modelo de Carro
         ModelCar carroChino = new ModelCar("Cherry", "TiggoV7", 2018, CarType.Pick_up);
-         cars= modelCarRepository.saveAll(List.of(carroChino));
+        cars = modelCarRepository.saveAll(List.of(carroChino));
 
-         //Items presentes en el contenedor
+        //Items presentes en el contenedor
 
-         ItemInfo item3  = new ItemInfo("2DD", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Original, 2);
-         ItemInfo item4  = new ItemInfo("2DDP", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Generico, 2);
+        ItemInfo item3 = new ItemInfo("2DD", 100542000L, "Meseta 2*2", "Meseta", carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Original, 2);
+        //  ItemInfo item4  = new ItemInfo("2DDP", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Generico, 2);
 
-         items = itemInfoRepository.saveAll(List.of(item3,item4));
+        items = itemInfoRepository.saveAll(List.of(item3));
 
-         //contenedor fuente
-         Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        //contenedor fuente
+        Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
 
         item3.setQuantityItem(2);
         source.addItem(item3, 2);
-        source.addItem(item4,2);
+        //source.addItem(item4,2);
         Inventory destination = new Inventory("QR005", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
         inventories = inventoryRepository.saveAll(List.of(source, destination));
         System.out.println(source);
@@ -183,12 +190,11 @@ public class controllerTest {
         System.out.println(destination);
 
 
-
-        InventoryDto location= new InventoryDto();
-                location.setSourceInventoryId("QR004");
-                location.setDestinationInventoryId("QR005");
-                location.setBarcode(100542000L);
-                location.setQuantity(2);
+        InventoryDto location = new InventoryDto();
+        location.setSourceInventoryId("QR004");
+        location.setDestinationInventoryId("QR005");
+        location.setBarcode(100542000L);
+        location.setQuantity(2);
 
         String body = objectMapper.writeValueAsString(location);
         MvcResult result = mockMvc.perform(post("/employee/acción/ubicar")
@@ -199,6 +205,45 @@ public class controllerTest {
         System.out.println(result.getResponse().getContentAsString());
     }
 
+    @Test
+    void shouldThrowIllegalAccessException_WhenTwoItemsWithSameBarcodeExistInSourceContainer() throws Exception {
+//Modelo de Carro
+        ModelCar carroChino = new ModelCar("Cherry", "TiggoV7", 2018, CarType.Pick_up);
+        cars = modelCarRepository.saveAll(List.of(carroChino));
 
+        //Items presentes en el contenedor
+
+        ItemInfo item3 = new ItemInfo("2DD", 100542000L, "Meseta 2*2", "Meseta", carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Original, 2);
+    ItemInfo item4  = new ItemInfo("2DDP", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Generico, 2);
+
+        items = itemInfoRepository.saveAll(List.of(item3,item4));
+
+        //contenedor fuente
+        Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+
+        item3.setQuantityItem(2);
+        source.addItem(item3, 2);
+        source.addItem(item4,2);
+        Inventory destination = new Inventory("QR005", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+        inventories = inventoryRepository.saveAll(List.of(source, destination));
+        System.out.println(source);
+
+        System.out.println(destination);
+
+        InventoryDto location = new InventoryDto();
+        location.setSourceInventoryId("QR004");
+        location.setDestinationInventoryId("QR005");
+        location.setBarcode(100542000L);
+        location.setQuantity(2);
+
+        String body = objectMapper.writeValueAsString(location);
+        MvcResult result = mockMvc.perform(post("/employee/acción/ubicar")
+                        .content(body)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()) // Esperamos un estado de BadRequest
+                .andReturn();
+
+        // Aquí podrías realizar más verificaciones según lo necesario
+    }
 }
 
