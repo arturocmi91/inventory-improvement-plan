@@ -158,15 +158,24 @@ public class controllerTest {
     //EMPLOYEE>>>> Test Post Agregar Articulo
     @Test
     void shouldAddItemToInventory_WhenPostMethodIsCalled() throws Exception {
+
+        //Modelo de Carro
         ModelCar carroChino = new ModelCar("Cherry", "TiggoV7", 2018, CarType.Pick_up);
          cars= modelCarRepository.saveAll(List.of(carroChino));
 
+         //Items presentes en el contenedor
+
          ItemInfo item3  = new ItemInfo("2DD", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Original, 2);
          ItemInfo item4  = new ItemInfo("2DDP", 100542000L, "Meseta 2*2", "Meseta",carroChino, ItemStatus.Disponible, 23.00, 25.00, 2, QualityItem.Generico, 2);
-        Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
-        items = itemInfoRepository.saveAll(List.of(item3));
+
+         items = itemInfoRepository.saveAll(List.of(item3,item4));
+
+         //contenedor fuente
+         Inventory source = new Inventory("QR004", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
+
         item3.setQuantityItem(2);
         source.addItem(item3, 2);
+        source.addItem(item4,2);
         Inventory destination = new Inventory("QR005", LocalDateTime.of(2024, 1, 5, 8, 1, 25), LocationType.Container, null, null, null);
         inventories = inventoryRepository.saveAll(List.of(source, destination));
         System.out.println(source);
@@ -176,8 +185,7 @@ public class controllerTest {
 
 
         InventoryDto location= new InventoryDto();
-                location.setSourceInventoryId("QR004" +
-                        "");
+                location.setSourceInventoryId("QR004");
                 location.setDestinationInventoryId("QR005");
                 location.setBarcode(100542000L);
                 location.setQuantity(2);

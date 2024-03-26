@@ -63,17 +63,29 @@ public class EmployeeService {
         //Incializacion del Contenedor de destino
         Inventory destinationContainer = inventoryRepository.findById(inventoryDto.getDestinationInventoryId()).orElseThrow(()
                 -> new IllegalArgumentException("La ubicación: " + "' " + inventoryDto.getDestinationInventoryId() + " '" + " no existe."));
-        //Validacion del item escaneado
+
+
+
+
+
+        //Validacion si hay otro item con el mismo bardcode en el sourceContainer
+        Long countItemsWithTheSameBardcode =sourceContainer.getItems().stream()
+                .filter(item ->  item.getBarcode().equals(inventoryDto.getBarcode()))
+                .count();
+
+        if (countItemsWithTheSameBardcode >= 2){
+            throw new IllegalAccessException("existen dos elementos con el mismo código de barras en el contenedor de origen. Apartar para resolver el problema.");
+        }
+      /**/  //Validacion del item escaneado en el sourceContainer.
         ItemInfo itemToMove = sourceContainer.getItems().stream()
                 .filter(item ->  item.getBarcode().equals(inventoryDto.getBarcode()) )
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(" No esta presente en este contenedor  "));
-        //Validacion del otro
 
         if (itemToMove != null) {
 
             itemToMove.setQuantityItem(inventoryDto.getQuantity());
-           // sourceContainer.getItems().remove(itemToMove);
+           sourceContainer.getItems().remove(itemToMove);
             destinationContainer.getItems().add(itemToMove);
         } else {
             throw new IllegalArgumentException("El artículo no existe en la base de datos");
